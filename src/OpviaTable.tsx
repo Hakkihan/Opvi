@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { Column, ColumnHeaderCell, EditableCell2, Table2 } from '@blueprintjs/table';
 import './OpviaTable.css';
-// import { hf, sheetId } from './components/hyperformulaconfig';
 import { dummyTableData2 } from './data/dummyData2';
 import { IoRemoveCircleOutline } from 'react-icons/io5';
-import { ColumnHeader } from '@blueprintjs/table/lib/esm/headers/columnHeader';
 import HyperFormula from 'hyperformula';
 import Aggregations from './components/Aggregations';
 
