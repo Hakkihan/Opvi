@@ -1,0 +1,108 @@
+.button {
+    background-color: #00A396;
+    font-weight: 500;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 0.2rem;
+    color: white;
+    /* border: none; */
+    border-color: #00A396;
+
+
+}
+
+.button:hover {
+    background-color: #007d73;
+}
+
+.button:focus {
+    outline: none
+}
+
+.IoRemoveCircleOutline {
+    margin-left: 5px;
+    padding-top: 1px;
+}
+
+.IoRemoveCircleOutline:hover {
+    cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 60px;
+    background-color: #9ca3af;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 1px 0;
+    margin-left: 3px;
+    font-weight: 300;
+    position: absolute;
+    z-index: 1;
+    
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+input {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+    border-radius: 0.2rem;
+}
+
+hr {
+    border: 1px solid black;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    width: 50%;
+}
+
+.blueprint-table2 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.ag-theme-alpine {
+    margin-bottom: 20px;
+}
+
+.table-title h1 {
+    text-transform: capitalize;
+}
+
+.table-title h1:before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 0px;
+    content: "";
+    background-color: #00A396;
+}
+
+.table-title h1 span {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    /* line-height: 3em; */
+    padding-left: 0.25em;
+    color: rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+}
+
+.tiptext {
+    margin-top: 5px;
+    color: #9ca3af;
+}
