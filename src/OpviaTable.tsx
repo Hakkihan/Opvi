@@ -14,6 +14,7 @@ const columns = [
 ];
 
 const OpviaTable: React.FC = () => {
+  const [selected, setSelected] : any = React.useState({columnStart : '', rowStart: '', columnEnd: '', rowEnd: ''});
   const [columnsState, setColumnsState] = React.useState(columns);
   const [newColumnState, setNewColumnState] = React.useState({ columnName: '', columnType: '', columnId: '', formula: '' });
 
@@ -52,18 +53,18 @@ const OpviaTable: React.FC = () => {
   }
 
   const cellRenderer = (rowIndex: number, columnIndex: number): JSX.Element => {
-    i = rowIndex;
+    i = rowIndex + 1;
     j = columnIndex;
     const b = eval('`=' + columnsState[j].columnFormula + '`');
     const cellAddress = { sheet: sheetId, col: columnIndex, row: rowIndex };
     let cellValue;
-    if (hf.getCellValue(cellAddress) && data[i][j]) {
+    if (hf.getCellValue(cellAddress) && data[rowIndex][j]) {
       cellValue = hf.getCellValue(cellAddress);
     }
     if (!cellValue) {
       try {
         cellValue = hf.calculateFormula(b, 0);
-        data[i][j] = String(cellValue);
+        data[rowIndex][j] = String(cellValue);
       }
       catch (err) {
         if (err instanceof Error) {
@@ -74,7 +75,7 @@ const OpviaTable: React.FC = () => {
       }
 
     }
-    return <EditableCell2 rowIndex={i} columnIndex={j} value={String(cellValue)} onConfirm={(val, rowIndex, columnIndex) => handleCellUpdate(val, rowIndex, columnIndex)} />
+    return <EditableCell2 rowIndex={rowIndex} columnIndex={j} value={String(cellValue)} onConfirm={(val, rowIndex, columnIndex) => handleCellUpdate(val, rowIndex, columnIndex)} />
 
   }
 
@@ -96,6 +97,14 @@ const OpviaTable: React.FC = () => {
 
   const handleNewColumnOnSubmit = (event: any) => {
     event?.preventDefault();
+  }
+
+  const selectionRegion = (selectRegion: any) => {
+    const colStart = String.fromCharCode(selectRegion[0].cols[0] + 65);
+    const colEnd = String.fromCharCode(selectRegion[0].cols[1] + 65);
+    const rowStart = selectRegion[0].rows[0] + 1;
+    const rowEnd = selectRegion[0].rows[1] + 1;
+    setSelected({ colStart, rowStart, colEnd, rowEnd});
   }
 
   const handleAddColumn = () => {
@@ -156,10 +165,11 @@ const OpviaTable: React.FC = () => {
       </div>
 
       <div className="blueprint-table2" style={{ display: "flex", justifyContent: "center" }}>
-        <Table2 defaultRowHeight={30} numRows={8}>
+        <Table2 defaultRowHeight={30} numRows={8} onSelection={(e : any) => { console.log(e) ; selectionRegion(e);  } } >
           {cols}
-        </Table2>
+        </Table2>    
       </div>
+      <div className='tiptext'>Selected Region: <strong>{selected.colStart}{selected.rowStart}: {selected.colEnd}{selected.rowEnd}</strong>  </div>
 
       <div className='flex-container tooltipbottom' style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
         <form onSubmit={handleNewColumnOnSubmit}>
@@ -168,8 +178,8 @@ const OpviaTable: React.FC = () => {
         </form>
         <button className='button' type="submit" onClick={() => handleAddColumn()} >Add Calculation column </button>
       </div>
-      <div className="tiptext"><strong>Tip</strong>: cells start from A1 and use the character i to reference row number. 
-        <br /> Example:  B$&#123;i + 1&#125;*C$&#123;i + 1&#125;  would multiply the second and third column's cells.
+      <div className="tiptext"><strong>Tip</strong>: cells start from A1 and you may use the character i as a dummy variable for column operations. 
+        <br /> Example: entering B$&#123;i&#125;*C$&#123;i&#125;  would multiply the second and third column's cells.
         <br /> <a href="https://hyperformula.handsontable.com/guide/built-in-functions.html#list-of-available-functions">See here</a> for a full list of available operations
       </div>
 
