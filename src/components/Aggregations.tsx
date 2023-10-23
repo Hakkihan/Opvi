@@ -4,11 +4,11 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-function Aggregations({ aggregationVars, setAggregationVars }: any): any {
-    const gridRef: any = React.useRef();
-    const getRowId: any = (params: any) => { return params.data.name };
+function Aggregations({ aggregationVars, setAggregationVars} : any) {
+    const gridRef = React.useRef<AgGridReact>(null);
+    const getRowId = (params: any) => { return params.data.name };
 
-    const rowData = aggregationVars.map((variable: any) => {
+    const rowData = aggregationVars.map((variable : {name:string, value: string|number, formula: string|number }) => {
         return ({ name: variable.name, value: variable.value, formula: variable.formula });
     });
 
@@ -19,13 +19,13 @@ function Aggregations({ aggregationVars, setAggregationVars }: any): any {
             </div>);
     }
 
-    const columnDefs: any = [
+    const columnDefs = [
         { field: "name", width:200 },
         { field: "value", width:250 },
         { field: "", cellRenderer: cellRenderer }
     ]
 
-    const handleRemoveVariable: any = (rowIndex: number, params: any) => {
+    const handleRemoveVariable = (rowIndex: number) => {
         const updatedVariables = rowData;
         updatedVariables.splice(rowIndex, 1);
         return updatedVariables;

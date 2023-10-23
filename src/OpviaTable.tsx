@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Column, ColumnHeaderCell, EditableCell2, Table2 } from '@blueprintjs/table';
+import { Column, ColumnHeaderCell2, EditableCell2, Region, Table2 } from '@blueprintjs/table';
 import './OpviaTable.css';
 import { dummyTableData2 } from './data/dummyData2';
 import { IoRemoveCircleOutline } from 'react-icons/io5';
@@ -14,12 +14,12 @@ const columns = [
 ];
 
 const OpviaTable: React.FC = () => {
-  const [selected, setSelected] : any = React.useState({columnStart : '', rowStart: '', columnEnd: '', rowEnd: ''});
+  const [selected, setSelected] = React.useState({columnStart : '', rowStart: '', columnEnd: '', rowEnd: ''});
   const [columnsState, setColumnsState] = React.useState(columns);
   const [newColumnState, setNewColumnState] = React.useState({ columnName: '', columnType: '', columnId: '', formula: '' });
-
-  const [aggregationVars, setAggregationVars]: any = React.useState([]);
-  const [newAggregationVar, setNewAggregationVar]: any = React.useState({ name: '', value: '', formula: '' });
+  
+  const [aggregationVars, setAggregationVars] = React.useState<Array<{name: string, value: string |number , formula: string | number}>>([]);
+  const [newAggregationVar, setNewAggregationVar] = React.useState({ name: '', value: '', formula: '' });
   let i: number, j: number;
 
 
@@ -48,7 +48,7 @@ const OpviaTable: React.FC = () => {
 
     setNewColumnState({ ...newColumnState, formula: e.target.value });
   }
-  const handleCellUpdate = (val: any, rowIndex: any, columnIndex: any) => {
+  const handleCellUpdate = (val: any, rowIndex: number, columnIndex: number) => {
     data[rowIndex][columnIndex] = val;
   }
 
@@ -75,12 +75,12 @@ const OpviaTable: React.FC = () => {
       }
 
     }
-    return <EditableCell2 rowIndex={rowIndex} columnIndex={j} value={String(cellValue)} onConfirm={(val, rowIndex, columnIndex) => handleCellUpdate(val, rowIndex, columnIndex)} />
+    return <EditableCell2 rowIndex={rowIndex} columnIndex={j} value={String(cellValue)} onConfirm={(val, rowIndex, columnIndex) => handleCellUpdate(val!, rowIndex!, columnIndex!)} />
 
   }
 
   const headerCellRenderer = (colName: string): JSX.Element => {
-    return (<ColumnHeaderCell>
+    return (<ColumnHeaderCell2>
       <div className='tooltip'>
         {colName}
         <div>
@@ -88,7 +88,7 @@ const OpviaTable: React.FC = () => {
           <span className='tooltiptext'>Remove</span>
         </div>
       </div>
-    </ColumnHeaderCell>);
+    </ColumnHeaderCell2>);
   }
 
   const cols: JSX.Element[] = columnsState.map((column) => (
@@ -99,12 +99,12 @@ const OpviaTable: React.FC = () => {
     event?.preventDefault();
   }
 
-  const selectionRegion = (selectRegion: any) => {
+  const selectionRegion = (selectRegion: Array<any> ) => {
     const colStart = String.fromCharCode(selectRegion[0].cols[0] + 65);
     const colEnd = String.fromCharCode(selectRegion[0].cols[1] + 65);
     const rowStart = selectRegion[0].rows[0] + 1;
     const rowEnd = selectRegion[0].rows[1] + 1;
-    setSelected({ colStart, rowStart, colEnd, rowEnd});
+    setSelected({ columnStart: colStart, rowStart, columnEnd: colEnd, rowEnd});
   }
 
   const handleAddColumn = () => {
@@ -141,15 +141,15 @@ const OpviaTable: React.FC = () => {
   }
 
   const handleAddAggregationVar = () => {
-    const currentAggregationNames = aggregationVars.map((variables: any) => {
-      return variables.name;
+    const currentAggregationNames = aggregationVars.map((variable) => {
+      return variable.name;
     })
     if (currentAggregationNames.includes(newAggregationVar.name)) {
       alert("Variable name already exists!");
     }
     else {
       const value = hf.calculateFormula("=" + newAggregationVar.formula, 0);
-      const newAggregationVarsState = [...aggregationVars, { name: newAggregationVar.name, value: value }];
+      const newAggregationVarsState : Array<any> = [...aggregationVars, { name: newAggregationVar.name, value: value, formula: newAggregationVar.formula }];
       setAggregationVars(newAggregationVarsState);
     }
   }
@@ -165,11 +165,11 @@ const OpviaTable: React.FC = () => {
       </div>
 
       <div className="blueprint-table2" style={{ display: "flex", justifyContent: "center" }}>
-        <Table2 defaultRowHeight={30} numRows={8} onSelection={(e : any) => { console.log(e) ; selectionRegion(e);  } } >
+        <Table2 defaultRowHeight={30} numRows={8} onSelection={(e : any) => { selectionRegion(e);  } } >
           {cols}
         </Table2>    
       </div>
-      <div className='tiptext'>Selected Region: <strong>{selected.colStart}{selected.rowStart}: {selected.colEnd}{selected.rowEnd}</strong>  </div>
+      <div className='tiptext'>Selected Region: <strong>{selected.columnStart}{selected.rowStart}: {selected.columnEnd}{selected.rowEnd}</strong>  </div>
 
       <div className='flex-container tooltipbottom' style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
         <form onSubmit={handleNewColumnOnSubmit}>
