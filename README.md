@@ -12,6 +12,8 @@ The following additions have been made to the Opvia starting point:
 8) A tip to assist in writing formula
 9) Styling in accordance with the Opvia theme
 
+    If more time: would have liked to have spent more time on potentially refactoring, double checking types, etc. It would have been nice to be able to select a region and have the formula input be autofilled in some way. Also, always cool to add new+cool features!
+
 
 
 
