@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import OpviaTable from './OpviaTable';
+import OpTable from './OpTable';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <OpviaTable />
+      <OpTable />
     </div>
   );
 };

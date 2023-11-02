@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Column, ColumnHeaderCell2, EditableCell2, Region, Table2 } from '@blueprintjs/table';
-import './OpviaTable.css';
+import './OpTable.css';
 import { dummyTableData2 } from './data/dummyData2';
 import { IoRemoveCircleOutline } from 'react-icons/io5';
 import HyperFormula from 'hyperformula';
@@ -13,7 +13,7 @@ const columns = [
   { columnName: 'Volume', columnType: 'data', columnId: 'var_col_2', columnFormula: '' },
 ];
 
-const OpviaTable: React.FC = () => {
+const OpTable: React.FC = () => {
   const [selected, setSelected] = React.useState({columnStart : '', rowStart: '', columnEnd: '', rowEnd: ''});
   const [columnsState, setColumnsState] = React.useState(columns);
   const [newColumnState, setNewColumnState] = React.useState({ columnName: '', columnType: '', columnId: '', formula: '' });
@@ -159,7 +159,7 @@ const OpviaTable: React.FC = () => {
   return (
     <div >
       <div className="table-title flex-container" style={{ display: "flex", justifyContent: "center" }}>
-        <h1>Opvia
+        <h1>Stylish
           <span>Table Component</span>
         </h1>
       </div>
@@ -201,4 +201,4 @@ const OpviaTable: React.FC = () => {
   );
 };
 
-export default OpviaTable;
+export default OpTable;
